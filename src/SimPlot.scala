@@ -3,6 +3,8 @@ import scala.swing.Panel
 import scala.swing.Panel
 import scala.swing.Panel
 import java.awt.Panel
+import java.awt.Graphics2D
+import java.awt.TextField
 /**
  * @author Charles
  */
