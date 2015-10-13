@@ -20,6 +20,8 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
   val yMax = 10.0
   val xComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
   val yComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
+  val x2ComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
+  val y2ComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
 
   def xMinField: TextField = { ??? }
   def xMaxField: TextField = { ??? }
@@ -40,13 +42,14 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       g.fillRect(0, 0, 1000, 1000)
       for (i <- 0 until mParticles.length) {
         g.setColor(new Color(
-            (mParticles(i).pos.x/100.0 % 1).toFloat.abs, 
-            (mParticles(i).pos.y/100.0 % 1).toFloat.abs, 
-            (mParticles(i).pos.z/100.0 % 1).toFloat.abs))
-        g.fillOval((mParticles(i).pos.x).toInt,
+          (mParticles(i).pos.x / 100.0 % 1).toFloat.abs,
+          (mParticles(i).pos.y / 100.0 % 1).toFloat.abs,
+          (mParticles(i).pos.z / 100.0 % 1).toFloat.abs))
+        g.fillOval(
+          (mParticles(i).pos.x).toInt,
           (mParticles(i).pos.y).toInt,
-          (mParticles(i).radius).toInt,
-          (mParticles(i).radius).toInt)
+          (mParticles(i).radius * 100).toInt,
+          (mParticles(i).radius * 100).toInt)
       }
     }
   }
@@ -58,6 +61,16 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
     }
     contents += new BoxPanel(Orientation.Vertical) {
       contents += yComboBox
+      contents += new TextField
+      contents += new TextField
+    }
+    contents += new BoxPanel(Orientation.Vertical) {
+      contents += x2ComboBox
+      contents += new TextField
+      contents += new TextField
+    }
+    contents += new BoxPanel(Orientation.Vertical) {
+      contents += y2ComboBox
       contents += new TextField
       contents += new TextField
     }
