@@ -1,11 +1,17 @@
 package particlesim
 
 import java.awt.Color
-import java.awt.geom._
-import scala.swing._
-import scala.collection.mutable
 
-class SimPlot(mParticles:mutable.Buffer[Particle]) extends BorderPanel {
+import scala.collection.mutable
+import scala.swing.BorderPanel
+import scala.swing.BoxPanel
+import scala.swing.ComboBox
+import scala.swing.Graphics2D
+import scala.swing.Orientation
+import scala.swing.Panel
+import scala.swing.TextField
+
+class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
   val xaxis: Int = 800
   val yaxis: Int = 600
   val xMin = -10.0
@@ -24,39 +30,39 @@ class SimPlot(mParticles:mutable.Buffer[Particle]) extends BorderPanel {
 
   }
 
-  def sim(mParti:mutable.Buffer[Particle]): Simulation = { 
-    val accel=(new GravityForce).calcAccelerations(mParti.toIndexedSeq)
-    
-  }
-  
-  val parti = new Particle((1,1,1),(1,1,1),1,10,10)
+  //def sim(mParti: mutable.Buffer[Particle]): Simulation = {
+  //val accel = (new GravityForce).calcAccelerations(mParti.toIndexedSeq)
+  //}
 
   val drawPanel = new Panel {
     override def paint(g: Graphics2D): Unit = {
-      g.setBackground(Color.white)
-      g.setColor(Color.BLACK)
-      for(i<-mParticles.indices) {
-        /*
-        math.random*100 match {
-          case x if(x>0&&x<25) g.setColor(Color.green)
-        }
-        */
-        g.fillOval((mParticles(i).x.x*100).toDouble, (mParticles(i).x.y*100).toDouble, (mParticles(i).radius*100).toDouble, (mParticles(i).radius*100).toDouble)
-        mParticles(i).draw(g)
+      g.setPaint(Color.BLACK)
+      g.fillRect(0, 0, 1000, 1000)
+      for (i <- 0 until mParticles.length) {
+        g.setColor(new Color(
+            (mParticles(i).pos.x/100.0 % 1).toFloat.abs, 
+            (mParticles(i).pos.y/100.0 % 1).toFloat.abs, 
+            (mParticles(i).pos.z/100.0 % 1).toFloat.abs))
+        g.fillOval((mParticles(i).pos.x).toInt,
+          (mParticles(i).pos.y).toInt,
+          (mParticles(i).radius).toInt,
+          (mParticles(i).radius).toInt)
       }
-      
     }
-    preferredSize = new Dimension(600,800)
   }
   val boxPanel = new BoxPanel(Orientation.Horizontal) {
     contents += new BoxPanel(Orientation.Vertical) {
-      xComboBox
-      new TextArea
-      new TextArea
+      contents += xComboBox
+      contents += new TextField
+      contents += new TextField
     }
-    contents += new BoxPanel(Orientation.Vertical)
-      yComboBox
-      new TextArea
-      new TextArea
+    contents += new BoxPanel(Orientation.Vertical) {
+      contents += yComboBox
+      contents += new TextField
+      contents += new TextField
+    }
   }
+
+  add(drawPanel, BorderPanel.Position.Center)
+  add(boxPanel, BorderPanel.Position.North)
 }
