@@ -6,11 +6,11 @@ class Simulation(mParticles: mutable.Buffer[Particle], dt: Double) {
     val to = System.nanoTime()
     val acc = frc.calcAccelerations(mParticles.toIndexedSeq)
     for (i <- 0 until mParticles.length) {
-      mParticles(i).accelerate(acc(i)*dt)
+      mParticles(i).accelerate(acc(i) * dt)
     }
     val t1 = System.nanoTime()
-    println("Elapsed time is " + (t1 - to) / 1000000 + " milliseconds")
-    //var avgElps = 
+    var milli = (t1 - to) / 1000000
+    println("Calculated in " + milli + " milliseconds")
     //(new GravityForce(dt)).calcAccelerations(mParticles.toIndexedSeq))
     //gforce.calcAccelerations(mParticles.toIndexedSeq)
   }
@@ -19,7 +19,7 @@ class Simulation(mParticles: mutable.Buffer[Particle], dt: Double) {
     mParticles += p
   }
   def numParticles: Int = { mParticles.length }
-  def advance(dt:Double): Unit = {
+  def advance(dt: Double): Unit = {
     mParticles.foreach(_.step(dt))
   }
 }

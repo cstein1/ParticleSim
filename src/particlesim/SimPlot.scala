@@ -21,7 +21,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
   val xMax = 10.0
   val yMin = -10.0
   val yMax = 10.0
-  val xComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
+  val xComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy")) 
   val yComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
   val x2ComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
   val y2ComboBox = new ComboBox(List("x", "y", "z", "vx", "vy", "vz", "time", "energy"))
@@ -50,15 +50,8 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
   //def sim(mParti: mutable.Buffer[Particle]): Simulation = {
   //val accel = (new GravityForce).calcAccelerations(mParti.toIndexedSeq)
   //}
-  var i = 2;
-  val button = new Button {
-    listenTo(mouse.clicks)
-    reactions += {
-      case e: MouseClicked =>
-        drawPanel.ignoreRepaint; i += 1;
-        drawPanel.repaint(); i += 1;
-    }
-  }
+
+
   val drawPanel = new Panel {
     override def paint(g: Graphics2D): Unit = {
       g.setPaint(Color.BLACK)
@@ -97,9 +90,9 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       contents += new TextField
       contents += new TextField
     }
-    contents += new BoxPanel(Orientation.Vertical) {
+    /*contents += new BoxPanel(Orientation.Vertical) {
       contents += button
-    }
+    }*/
   }
 
   add(drawPanel, BorderPanel.Position.Center)

@@ -2,6 +2,8 @@ package particlesim
 
 import scala.collection.mutable
 import scala.swing._
+import scala.swing.event.MouseClicked
+import scala.swing.event.MouseEntered
 
 /**
  * @author Charles
@@ -28,15 +30,31 @@ object Main {
     centerOnScreen()
   }
 
+  var boolSwitch = false
+  
+  var buttonFrame:MainFrame = new MainFrame {
+    contents = new Button {
+    listenTo(mouse.clicks)
+    reactions += {
+      case e: MouseClicked =>
+        boolSwitch ^= true
+        buttonFrame.repaint()
+    }
+  }
+    preferredSize = new Dimension(500, 500)
+  }
+
   def main(args: Array[String]): Unit = {
     mainFrame.open
-    val dt = .1
+    buttonFrame.open
+    val dt = .001
     val gForce = new GravityForce
     val sim = new Simulation(partiList, dt)
     while (true) {
       sim.applyForce(gForce, dt)
       sim.advance(dt)
-      mainFrame.repaint()
+      if(boolSwitch == false)mainFrame.repaint()
     }
   }
+
 }
