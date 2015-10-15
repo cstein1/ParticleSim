@@ -8,20 +8,17 @@ import scala.swing._
  */
 object Main {
   val pa = new Particle(
-    new Point3D(150, 150, 150),
-    new Vect3D(0, 0, 0), 10, 20)
+    new Point3D(100, 100, 100),
+    new Vect3D(0, 0, 0), 1, 5)
   val pb = new Particle(
-    new Point3D(50, 50, 50),
-    new Vect3D(0, 0, 0), 5, 10)
-  /*val mid = new Particle(
-      new Point3D(500,500,500),
-      new Vect3D(0,0,0),
-      100000000, 0) */
+    new Point3D(200, 200, 200),
+    new Vect3D(0, 0, 1), 1e-10, 1)
   val partiList = mutable.Buffer(pa, pb)
-  for (i <- 0 to 10) {
+  for (i <- 0 to 100) {
+    var rad = util.Random.nextDouble() * 100
     partiList += new Particle(
-      new Point3D(util.Random.nextDouble()*500, util.Random.nextDouble()*500, util.Random.nextDouble()*500),
-      new Vect3D(0, 0, 0), util.Random.nextDouble()*100, util.Random.nextDouble*100)
+      new Point3D(util.Random.nextDouble() * 500, util.Random.nextDouble() * 500, util.Random.nextDouble() * 500),
+      new Vect3D(0, 0, 0), rad, rad / 100)
   }
   val mainFrame = new MainFrame {
     contents = new BoxPanel(Orientation.NoOrientation) {
@@ -33,7 +30,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     mainFrame.open
-    val dt = 5
+    val dt = .1
     val gForce = new GravityForce
     val sim = new Simulation(partiList, dt)
     while (true) {

@@ -10,9 +10,6 @@ class GravityForce extends TimeStepForce {
           val dist = dvect.mag + 10
           val mag = 1 / (dist * dist * dist)
           acc -= dvect * parts(j).mass * mag
-          println("Acceleration Calculated")
-
-          if (dist <= 10) acc = Vect3D(0, 0, 0)
         }
       }
       acc
