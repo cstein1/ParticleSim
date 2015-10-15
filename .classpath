@@ -7,6 +7,9 @@
 	<classpathentry kind="lib" path="/usr/local/scala-2.11.7/lib/scala-swing_2.11-1.0.2.jar"/>
 	<classpathentry kind="lib" path="/usr/local/scala-2.11.7/lib/scala-reflect.jar"/>
 	<classpathentry kind="lib" path="/usr/local/scala-2.11.7/lib/scalap-2.11.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="/usr/local/scala-2.11.2/lib/scala-swing_2.11-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/usr/local/scala-2.11.2/lib/scala-swing_2.11-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files (x86)/scala/lib/scalap-2.11.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files (x86)/scala/lib/scala-reflect.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files (x86)/scala/lib/scala-swing_2.11-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

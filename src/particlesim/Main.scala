@@ -15,10 +15,10 @@ object Main {
     new Vect3D(0, 0, 1), 1e-10, 1)
   val partiList = mutable.Buffer(pa, pb)
   for (i <- 0 to 100) {
-    var rad = util.Random.nextDouble()*100
+    var rad = util.Random.nextDouble() * 100
     partiList += new Particle(
-      new Point3D(util.Random.nextDouble()*500, util.Random.nextDouble()*500, util.Random.nextDouble()*500),
-      new Vect3D(0, 0, 0), rad, rad/100)
+      new Point3D(util.Random.nextDouble() * 500, util.Random.nextDouble() * 500, util.Random.nextDouble() * 500),
+      new Vect3D(0, 0, 0), rad, rad / 100)
   }
   val mainFrame = new MainFrame {
     contents = new BoxPanel(Orientation.NoOrientation) {
