@@ -10,6 +10,7 @@ class Simulation(mParticles: mutable.Buffer[Particle], dt: Double) {
     }
     val t1 = System.nanoTime()
     println("Elapsed time is " + (t1 - to) / 1000000 + " milliseconds")
+    //var avgElps = 
     //(new GravityForce(dt)).calcAccelerations(mParticles.toIndexedSeq))
     //gforce.calcAccelerations(mParticles.toIndexedSeq)
   }

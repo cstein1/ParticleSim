@@ -55,16 +55,10 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
     listenTo(mouse.clicks)
     reactions += {
       case e: MouseClicked =>
-        if (i % 2 == 1) {
-          while (true) drawPanel.ignoreRepaint
-          i += 1
-        } else {
-          while (true) drawPanel.repaint()
-          i += 1
-        }
+        drawPanel.ignoreRepaint; i += 1;
+        drawPanel.repaint(); i += 1;
     }
   }
-
   val drawPanel = new Panel {
     override def paint(g: Graphics2D): Unit = {
       g.setPaint(Color.BLACK)
