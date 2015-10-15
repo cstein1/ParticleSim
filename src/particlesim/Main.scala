@@ -13,12 +13,12 @@ object Main {
   val pb = new Particle(
     new Point3D(50, 50, 50),
     new Vect3D(0, 0, 0), 5, 10)
-  val mid = new Particle(
+  /*val mid = new Particle(
       new Point3D(500,500,500),
       new Vect3D(0,0,0),
-      100000000, 0)
-  val partiList = mutable.Buffer(pa, pb,mid)
-  for (i <- 0 to 5) {
+      100000000, 0) */
+  val partiList = mutable.Buffer(pa, pb)
+  for (i <- 0 to 10) {
     partiList += new Particle(
       new Point3D(util.Random.nextDouble()*500, util.Random.nextDouble()*500, util.Random.nextDouble()*500),
       new Vect3D(0, 0, 0), util.Random.nextDouble()*100, util.Random.nextDouble*100)
@@ -33,7 +33,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     mainFrame.open
-    val dt = .0001
+    val dt = 5
     val gForce = new GravityForce
     val sim = new Simulation(partiList, dt)
     while (true) {
