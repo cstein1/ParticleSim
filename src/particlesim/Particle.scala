@@ -15,6 +15,5 @@ class Particle(
   }
   def step(dt: Double): Unit = {
     px = pos + v * dt
-    println("Step Applied")
   }
 }

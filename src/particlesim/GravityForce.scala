@@ -13,6 +13,6 @@ class GravityForce extends TimeStepForce {
         }
       }
       acc
-    }).toIndexedSeq
+    }).toIndexedSeq    
   }
 }
