@@ -9,51 +9,62 @@ import scala.swing.event.MouseEntered
  * @author Charles
  */
 object Main {
+
   val pa = new Particle(
-    new Point3D(100, 100, 100),
-    new Vect3D(0, 0, 0), 1, 5)
+    new Point3D(10, 10, 10),
+    new Vect3D(0, 0, 0), 1, 1)
   val pb = new Particle(
-    new Point3D(200, 200, 200),
-    new Vect3D(0, 0, 1), 1e-10, 1)
-  val partiList = mutable.Buffer(pa, pb)
-  for (i <- 0 to 100) {
-    var rad = util.Random.nextDouble() * 100
-    partiList += new Particle(
-      new Point3D(util.Random.nextDouble() * 500, util.Random.nextDouble() * 500, util.Random.nextDouble() * 500),
-      new Vect3D(0, 0, 0), rad, rad / 100)
-  }
+    new Point3D(50, 50, 50),
+    new Vect3D(0, 0, 0), 1e-10, 1)
+  var partiList = mutable.Buffer(pa, pb)
+  var plot = new SimPlot(partiList)
+  val gForce = new GravityForce
+  val sim = new Simulation(partiList, plot.dt)
+
   val mainFrame = new MainFrame {
     contents = new BoxPanel(Orientation.NoOrientation) {
-      contents += new SimPlot(partiList)
-      preferredSize = new Dimension(1000, 1000)
+      contents += plot
+      preferredSize = new Dimension(
+        plot.xMax.toInt - plot.xMin.toInt,
+        plot.yMax.toInt - plot.xMin.toInt)
     }
     centerOnScreen()
   }
 
   var boolSwitch = false
-  
-  var buttonFrame:MainFrame = new MainFrame {
-    contents = new Button {
-    listenTo(mouse.clicks)
-    reactions += {
-      case e: MouseClicked =>
-        boolSwitch ^= true
-        buttonFrame.repaint()
+
+  var buttonFrame: MainFrame = new MainFrame {
+    contents = new GridPanel(2, 2) {
+      contents += new Label("Click me to Stop Repaint")
+      contents += new Button {
+        listenTo(mouse.clicks)
+        reactions += {
+          case e: MouseClicked =>
+            boolSwitch ^= true
+            buttonFrame.repaint()
+        }
+      }
+      contents += new Label("Click me to add a particle")
+      contents += new Button {
+        listenTo(mouse.clicks)
+        reactions += {
+          case e: MouseClicked =>
+            sim.addRandParticle(partiList)
+            buttonFrame.repaint()
+        }
+      }
+      preferredSize = new Dimension(200, 200)
     }
-  }
-    preferredSize = new Dimension(500, 500)
   }
 
   def main(args: Array[String]): Unit = {
     mainFrame.open
     buttonFrame.open
-    val dt = .001
-    val gForce = new GravityForce
-    val sim = new Simulation(partiList, dt)
+
     while (true) {
-      sim.applyForce(gForce, dt)
-      sim.advance(dt)
-      if(boolSwitch == false)mainFrame.repaint()
+      sim.applyForce(gForce, plot.dt)
+      sim.advance(plot.dt)
+      if (boolSwitch == false) mainFrame.repaint()
     }
   }
 
