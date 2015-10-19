@@ -21,25 +21,23 @@ import scala.swing.event.FocusLost
 import java.awt.Dimension
 
 class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
-  var dt: Double = 0.1
-  var dim1 = 200
-  var dim2 = 50
-  var xMin = -400
-  var xMax = 400
-  var yMin = -300
-  var yMax = 300
+  var dt: Double = 0.001
+  var xMin = -50
+  var xMax = 50
+  var yMin = -50
+  var yMax = 50
   var xBox = List("Plot: x")
   var yBox = List("Plot: y")
   var zBox = List("Plot: z")
   var numBox = List("dt")
-  var partBox = List("Radius", "Mass", "Click to Make New Particle")
+  var partBox = List("Radius", "Mass", "x", "y", "z", "Velocity")
   val xComboBox = new ComboBox(xBox)
   val yComboBox = new ComboBox(yBox)
   val zComboBox = new ComboBox(zBox)
   val numComboBox = new ComboBox(numBox)
   val newPartBox = new ComboBox(partBox)
 
-  var xMinField: TextField = {
+  val xMinField: TextField = {
     new TextField {
       if (xComboBox.selection.index == 0) {
         text = xMin.toString()
@@ -52,7 +50,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
     }
   }
 
-  var xMaxField: TextField = {
+  val xMaxField: TextField = {
     new TextField {
       if (xComboBox.selection.index == 0) {
         text = xMax.toString()
@@ -64,7 +62,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       }
     }
   }
-  def yMinField: TextField = {
+  val yMinField: TextField = {
     new TextField {
       if (xComboBox.selection.index == 0) {
         text = yMin.toString()
@@ -76,7 +74,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       }
     }
   }
-  def yMaxField: TextField = {
+  val yMaxField: TextField = {
     new TextField {
       if (xComboBox.selection.index == 0) {
         text = yMax.toString()
@@ -89,7 +87,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
     }
   }
 
-  var numField: TextField = {
+  val numField: TextField = {
     new TextField {
       if (numComboBox.selection.index == 0) {
         text = dt.toString()
@@ -102,7 +100,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
     }
   }
 
-  var xMinSlide: Slider = {
+  val xMinSlide: Slider = {
     new Slider() {
       min = -1000
       max = 0
@@ -111,10 +109,10 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
         case e: ValueChanged =>
           xMin = value
       }
-      preferredSize = new Dimension(dim1, dim2)
+      preferredSize = new Dimension(xMin, xMax)
     }
   }
-  var xMaxSlide: Slider = {
+  val xMaxSlide: Slider = {
     new Slider() {
       min = 0
       max = 1000
@@ -123,10 +121,10 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
         case e: ValueChanged =>
           xMax = value
       }
-      preferredSize = new Dimension(dim1, dim2)
+      preferredSize = new Dimension(xMin, xMax)
     }
   }
-  var yMinSlide: Slider = {
+  val yMinSlide: Slider = {
     new Slider() {
       min = -1000
       max = 0
@@ -139,7 +137,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       }
     }
   }
-  var yMaxSlide: Slider = {
+  val yMaxSlide: Slider = {
     new Slider() {
       min = 0
       max = 1000
@@ -150,10 +148,10 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
         case e: ValueChanged =>
           yMax = value
       }
-      preferredSize = new Dimension(dim1, dim2)
+      preferredSize = new Dimension(yMin, yMax)
     }
   }
-  var numSlide: Slider = {
+  val numSlide: Slider = {
     new Slider() {
       min = 0
       max = 3
@@ -164,7 +162,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
         case e: ValueChanged =>
           dt = value.toDouble / 1000
       }
-      preferredSize = new Dimension(dim1, dim2)
+      preferredSize = new Dimension(yMin, yMax)
     }
   }
 
@@ -178,14 +176,17 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       //g.fillRect(xMin.toInt, xMax.toInt, yMin.toInt, yMax.toInt)
       for (i <- 0 until mParticles.length) {
         g.setColor(new Color(
-          (mParticles(i).pos.x / 100.0 % 1).toFloat.abs,
-          (mParticles(i).pos.y / 100.0 % 1).toFloat.abs,
-          (mParticles(i).pos.z / 100.0 % 1).toFloat.abs))
+          ((mParticles(i).pos.x / 10.0) % 1).toFloat.abs,
+          ((mParticles(i).pos.y / 10.0) % 1).toFloat.abs,
+          ((mParticles(i).pos.y / 10.0) % 1).toFloat.abs))
         g.fillOval(
-          ((mParticles(i).pos.x - mParticles(i).radius + (xMax.toInt - xMin.toInt)) / 2).toInt,
-          ((mParticles(i).pos.y - mParticles(i).radius + (yMax.toInt - yMin.toInt)) / 2).toInt,
-          (mParticles(i).radius * 100).toInt,
-          (mParticles(i).radius * 100).toInt)
+          ((mParticles(i).pos.x - mParticles(i).radius - xMin) * (size.width / (xMax - xMin))).toInt,
+          ((mParticles(i).pos.y - mParticles(i).radius - yMin) * (size.height / (yMax - yMin))).toInt,
+          (mParticles(i).radius * (size.width/(xMax - xMin))).toInt,
+          (mParticles(i).radius * (size.height/(yMax - yMin))).toInt)
+        //((mParticles(i).pos.x - mParticles(i).radius + (xMax - xMin)) / 2).toInt,
+        //((mParticles(i).pos.y - mParticles(i).radius + (yMax - yMin)) / 2).toInt,
+
       }
     }
   }
