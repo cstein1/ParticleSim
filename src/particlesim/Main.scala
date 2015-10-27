@@ -15,7 +15,7 @@ object Main {
     new Vect3D(0, 0, 0), 1, 10)
   val pb = new Particle(
     new Point3D(10, 5, 0),
-    new Vect3D(0, .5, 0), 1e-10, 10)
+    new Vect3D(0, .05, 0), 1e-10, 10)
   var partiList = mutable.Buffer(pa, pb)
   var plot = new SimPlot(partiList)
   val gForce = new GravityForce
@@ -54,13 +54,13 @@ object Main {
       preferredSize = new Dimension(400, 200)
     }
   }
-  def readP(path: String): mutable.Buffer[Particle] = {
-    val paList = new BufferedInputStream(new FileInputStream(path))
+  //def readP(path: String): mutable.Buffer[Particle] = {
+    /*val paList = new BufferedInputStream(new FileInputStream(path))
     if (paList.available > 0) {
       val buf = new Array[Byte](paList.available)
       println(paList.read(buf))
-    }
-  }
+    }*/
+  //}
   def main(args: Array[String]): Unit = {
     mainFrame.open
     buttonFrame.open

@@ -15,4 +15,7 @@ class GravityForce extends TimeStepForce {
       acc
     }).toIndexedSeq    
   }
+  def calcCUSTOMAccelerations(parts:IndexedSeq[Particle], cForce:TimeStepForce): IndexedSeq[Vect3D] = {
+    ???
+  }
 }
