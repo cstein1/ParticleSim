@@ -21,7 +21,7 @@ import scala.swing.event.FocusLost
 import java.awt.Dimension
 
 class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
-  var dt: Double = 0.001
+  var dt: Double = 0.1
   var xMin = -50
   var xMax = 50
   var yMin = -50
@@ -173,7 +173,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
   val drawPanel = new Panel {
     override def paint(g: Graphics2D): Unit = {
       g.setPaint(Color.BLACK)
-      //g.fillRect(xMin.toInt, xMax.toInt, yMin.toInt, yMax.toInt)
+      g.fillRect(xMin.toInt, yMin.toInt, size.width*(xMax.toInt - xMin.toInt), size.width*(yMax.toInt - yMin.toInt))
       for (i <- 0 until mParticles.length) {
         g.setColor(new Color(
           ((mParticles(i).pos.x / 10.0) % 1).toFloat.abs,
