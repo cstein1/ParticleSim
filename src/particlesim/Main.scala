@@ -53,6 +53,7 @@ object Main {
   val pb = new Particle(
     new Point3D(10, 5, 0),
     new Vect3D(0, .05, 0), 1e-10, 10)
+<<<<<<< HEAD
   
   * var plot = new SimPlot(partiList)
   */
@@ -102,6 +103,7 @@ object Main {
       println(paList.read(buf))
     }
   }*/
+
   def main(args: Array[String]): Unit = {
     chooseFile
     mainFrame.open

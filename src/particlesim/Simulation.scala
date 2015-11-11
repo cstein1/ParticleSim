@@ -21,11 +21,11 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
 
   def addRandParticle(): Unit = this.synchronized {
     var posneg = if (util.Random.nextDouble() > 0.5) -1 else 1
-    var rad = util.Random.nextDouble() * 100
+    var rad = util.Random.nextDouble() * 500
     mParticles += new Particle(
       new Point3D(
-        util.Random.nextDouble() * posneg * 10,
-        util.Random.nextDouble() * posneg * 10,
+        util.Random.nextDouble() * posneg * 50,
+        util.Random.nextDouble() * posneg * 50,
         0),
       new Vect3D(0, 0, 0), rad, rad / 10)
 
