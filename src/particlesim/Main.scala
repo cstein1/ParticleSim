@@ -1,51 +1,50 @@
 package particlesim
 
-import java.io.BufferedInputStream
 import java.io.File
-import java.io.FileInputStream
-import java.io.ObjectInputStream
+import java.io.IOException
+
 import scala.collection.mutable
 import scala.swing._
 import scala.swing.event.MouseClicked
-import java.io.IOException
 
 /**
  * @author Charles
  */
 object Main {
   def impParts(s: String): mutable.Buffer[Particle] = {
-    var arrP = s.split(",")
+    println(s)
+    var arrP = s.split("\\s+").map(_.toDouble)
     if (arrP.length % 8 == 0) {
       var listOfP = mutable.Buffer[Particle]()
-      for (i <- arrP.indices) {
+      while(arrP.length != 0) {
         val nPart = new Particle(
           new Point3D((arrP(0).toDouble), (arrP(1).toDouble), (arrP(2)).toDouble),
           new Vect3D((arrP(3).toDouble), (arrP(4).toDouble), (arrP(5)).toDouble),
           arrP(6).toDouble, arrP(7).toDouble)
         listOfP += nPart
+        arrP = arrP.toList.drop(8).toArray
       }
       listOfP
     } else {
-    	println("You're text file is faulty.")
-      mutable.Buffer[Particle]()
+      println("Your text file is faulty.")
+      throw new IOException("Get help from Dr. Lewis at mlewis@trinity.edu")
     }
   }
 
-  def chooseFile:String = {
+  def chooseFile: String = {
     val chooser = new FileChooser(new File("."))
     chooser.title = "Import list of particles"
     val result = chooser.showOpenDialog(null)
     if (result == FileChooser.Result.Approve) {
       println("Approve --" + chooser.selectedFile)
-          val ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(chooser.selectedFile)))
-          var partiList = ois.readObject.toString
-          ois.close()
-          partiList
+      val src = scala.io.Source.fromFile(chooser.selectedFile)
+      val partIns = try (src.mkString) finally src.close()
+      partIns
     } else {
-     throw new IOException("Get help from Dr. Lewis.")
+      throw new IOException("Get help from Dr. Lewis at mlewis@trinity.edu")
     }
   }
-  
+
   /*
   val pa = new Particle(
     new Point3D(0, 0, 0),
@@ -53,12 +52,10 @@ object Main {
   val pb = new Particle(
     new Point3D(10, 5, 0),
     new Vect3D(0, .05, 0), 1e-10, 10)
-<<<<<<< HEAD
-  
-  * var plot = new SimPlot(partiList)
+  var plot = new SimPlot(partiList)
   */
   val initP = impParts(chooseFile)
-  var plot = new SimPlot(initP)
+  val plot = new SimPlot(initP)
   //var partiList = mutable.Buffer(pa, pb)
   val gForce = new GravityForce
   val sim = new Simulation(initP, plot.dt)
@@ -105,10 +102,10 @@ object Main {
   }*/
 
   def main(args: Array[String]): Unit = {
-    chooseFile
+    //chooseFile
     mainFrame.open
     buttonFrame.open
-
+    println(sim.numParticles)
     while (true) {
       sim.applyForce(gForce, plot.dt)
       sim.advance(plot.dt)

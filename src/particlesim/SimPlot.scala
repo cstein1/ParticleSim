@@ -21,11 +21,11 @@ import scala.swing.event.FocusLost
 import java.awt.Dimension
 
 class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
-  var dt: Double = 0.1
-  var xMin = -50
-  var xMax = 50
-  var yMin = -50
-  var yMax = 50
+  var dt: Double = 0.01
+  var xMin = -500
+  var xMax = 500
+  var yMin = -500
+  var yMax = 500
   var xBox = List("Plot: x")
   var yBox = List("Plot: y")
   var zBox = List("Plot: z")

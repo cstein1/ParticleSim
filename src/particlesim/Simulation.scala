@@ -12,7 +12,7 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
     }
     val t1 = System.nanoTime()
     var milli = (t1 - to) / 1000000
-    println("Calculated in " + milli + " milliseconds")
+    //println("Calculated in " + milli + " milliseconds")
 
     //(new GravityForce(dt)).calcAccelerations(mParticles.toIndexedSeq))
     //gforce.calcAccelerations(mParticles.toIndexedSeq)
