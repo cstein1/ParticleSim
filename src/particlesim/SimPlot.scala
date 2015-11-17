@@ -182,11 +182,8 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
         g.fillOval(
           ((mParticles(i).pos.x - mParticles(i).radius - xMin) * (size.width / (xMax - xMin))).toInt,
           ((mParticles(i).pos.y - mParticles(i).radius - yMin) * (size.height / (yMax - yMin))).toInt,
-          (mParticles(i).radius * (size.width/(xMax - xMin))).toInt,
-          (mParticles(i).radius * (size.height/(yMax - yMin))).toInt)
-        //((mParticles(i).pos.x - mParticles(i).radius + (xMax - xMin)) / 2).toInt,
-        //((mParticles(i).pos.y - mParticles(i).radius + (yMax - yMin)) / 2).toInt,
-
+          (mParticles(i).radius * (size.width/(xMax - xMin))).toInt * 2,
+          (mParticles(i).radius * (size.height/(yMax - yMin))).toInt * 2)
       }
     }
   }

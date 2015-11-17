@@ -45,15 +45,6 @@ object Main {
     }
   }
 
-  /*
-  val pa = new Particle(
-    new Point3D(0, 0, 0),
-    new Vect3D(0, 0, 0), 1, 10)
-  val pb = new Particle(
-    new Point3D(10, 5, 0),
-    new Vect3D(0, .05, 0), 1e-10, 10)
-  var plot = new SimPlot(partiList)
-  */
   val initP = impParts(chooseFile)
   val plot = new SimPlot(initP)
   //var partiList = mutable.Buffer(pa, pb)
@@ -93,13 +84,6 @@ object Main {
       preferredSize = new Dimension(400, 200)
     }
   }
-  /*def readP(path: String): mutable.Buffer[Particle] = {
-    val paList = new BufferedInputStream(new FileInputStream(path))
-    if (paList.available > 0) {
-      val buf = new Array[Byte](paList.available)
-      println(paList.read(buf))
-    }
-  }*/
 
   def main(args: Array[String]): Unit = {
     //chooseFile
