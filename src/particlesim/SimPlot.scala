@@ -22,10 +22,10 @@ import java.awt.Dimension
 
 class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
   var dt: Double = 0.01
-  var xMin = -500
-  var xMax = 500
-  var yMin = -500
-  var yMax = 500
+  var xMin = -750
+  var xMax = 750
+  var yMin = -750
+  var yMax = 750
   var xBox = List("Plot: x")
   var yBox = List("Plot: y")
   var zBox = List("Plot: z")
@@ -175,10 +175,11 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       g.setPaint(Color.BLACK)
       g.fillRect(xMin.toInt, yMin.toInt, size.width*(xMax.toInt - xMin.toInt), size.width*(yMax.toInt - yMin.toInt))
       for (i <- 0 until mParticles.length) {
-        g.setColor(new Color(
-          ((mParticles(i).pos.x / 10.0) % 1).toFloat.abs,
-          ((mParticles(i).pos.y / 10.0) % 1).toFloat.abs,
-          ((mParticles(i).pos.y / 10.0) % 1).toFloat.abs))
+//        g.setColor(new Color(
+//          ((mParticles(i).pos.x / 10.0) % 1).toFloat.abs,
+//          ((mParticles(i).pos.y / 10.0) % 1).toFloat.abs,
+//          ((mParticles(i).pos.y / 10.0) % 1).toFloat.abs))
+        g.setColor(Color.white)
         g.fillOval(
           ((mParticles(i).pos.x - mParticles(i).radius - xMin) * (size.width / (xMax - xMin))).toInt,
           ((mParticles(i).pos.y - mParticles(i).radius - yMin) * (size.height / (yMax - yMin))).toInt,

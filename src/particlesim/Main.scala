@@ -47,7 +47,6 @@ object Main {
 
   val initP = impParts(chooseFile)
   val plot = new SimPlot(initP)
-  //var partiList = mutable.Buffer(pa, pb)
   val gForce = new GravityForce
   val sim = new Simulation(initP, plot.dt)
 

@@ -16,4 +16,5 @@ class Particle(
   def step(dt: Double): Unit = {
     px = pos + v * dt
   }
+  def v_=(inp:Vect3D) = pv = inp
 }
