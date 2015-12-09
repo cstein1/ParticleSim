@@ -76,7 +76,7 @@ object Main {
         listenTo(mouse.clicks)
         reactions += {
           case e: MouseClicked =>
-            sim.addRandParticle()
+            //sim.addRandParticle()
             buttonFrame.repaint()
         }
       }

@@ -13,12 +13,12 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
     collisions
     val t1 = System.nanoTime()
     var milli = (t1 - to) / 1000000
-    //println("Calculated in " + milli + " milliseconds")
+    println("Calculated in " + milli + " milliseconds")
   }
   def p(index: Int) = mParticles(index)
 
 		  var switch = -1
-  def addRandParticle(): Unit = this.synchronized {
+  def addRandParticle(seed:Double): Unit = this.synchronized {
     var posneg = {
       switch *= -1
       util.Random.nextDouble * switch
@@ -29,7 +29,7 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
         util.Random.nextDouble() * posneg * 500,
         util.Random.nextDouble() * posneg * 500,
         0),
-      new Vect3D(util.Random.nextDouble*10, util.Random.nextDouble*10, 0), rad, rad / 10)
+      new Vect3D(util.Random.nextDouble, util.Random.nextDouble, 0), rad, rad / 10)
 
     println("Particle Added!")
   }
@@ -39,7 +39,7 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
     mParticles.foreach(_.step(dt))
   }
 
-  private val queue = new PartiPriorityQueue(_ < _)
+  private val heap = new PartiBinaryHeap(_ < _)
   def collisions() {
     for (i <- 0 until mParticles.length) {
       for (j <- i+1 until mParticles.length) {
@@ -52,30 +52,41 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
         val c = (dx dot dx)-math.pow((p.radius+p2.radius),2)
         val d2t = (-b-math.sqrt(math.pow(b, 2) - 4*a*c))/(2*a)
         if (d2t <= dt && d2t > 0) {
-          println("enqueued! d2t = " + d2t)
-          queue.enqueue((p, p2, d2t))
-          println(queue.length)
+          heap.enqueue((p, p2, d2t))
         }
       }
     }
-    while (!queue.isEmpty) {
-      val collision = queue.dequeue
+    while (!heap.isEmpty) {
+      val collision = heap.dequeue
       val p = collision._1
       val p2 = collision._2
       val dx = p.pos - p2.pos
       val dv = p.v - p2.v
       val dnorm = dx / (dx.mag)
-      println("dnorm = "+dnorm)
       val cmx = (p.pos * p.mass + p2.pos * p2.mass) / (p.mass + p2.mass)
       val cmv = (p.v * p.mass + p2.v * p2.mass) / (p.mass + p2.mass)
       val cmv1 = p.v - cmv
-      println("cmv1 = " + cmv1)
       val cmv2 = p2.v - cmv
       val cmv1perp = dnorm * (cmv1.dot(dnorm))
       p.v -=(cmv1perp * 2)
-      println("p accelerated by " + cmv1perp*(-2))
       val cmv2perp = dnorm * (cmv2.dot(dnorm))
       p2.v -=(cmv2perp * 2)
     }
+  }
+  
+  
+  def customForce(equation:String): IndexedSeq[Vect3D] = {
+    (for (i <- (0 until mParticles.length).par) yield {
+      var acc = new Vect3D(0, 0, 0)
+      for (j <- 0 until mParticles.length) {
+        if (i != j) {
+          val dvect = mParticles(i).pos - mParticles(j).pos
+          val dist = dvect.mag + 10
+          val mag = 1 / (dist * dist * dist)
+          acc -= dvect * mParticles(j).mass * mag
+        }
+      }
+      acc
+    }).toIndexedSeq    
   }
 }
