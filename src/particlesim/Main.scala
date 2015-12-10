@@ -2,10 +2,11 @@ package particlesim
 
 import java.io.File
 import java.io.IOException
-
 import scala.collection.mutable
 import scala.swing._
 import scala.swing.event.MouseClicked
+import scala.swing.event.KeyPressed
+import scala.swing.event.EditDone
 
 /**
  * @author Charles
@@ -16,7 +17,7 @@ object Main {
     var arrP = s.split("\\s+").map(_.toDouble)
     if (arrP.length % 8 == 0) {
       var listOfP = mutable.Buffer[Particle]()
-      while(arrP.length != 0) {
+      while (arrP.length != 0) {
         val nPart = new Particle(
           new Point3D((arrP(0).toDouble), (arrP(1).toDouble), (arrP(2)).toDouble),
           new Vect3D((arrP(3).toDouble), (arrP(4).toDouble), (arrP(5)).toDouble),
@@ -47,7 +48,6 @@ object Main {
 
   val initP = impParts(chooseFile)
   val plot = new SimPlot(initP)
-  val gForce = new GravityForce
   val sim = new Simulation(initP, plot.dt)
 
   val mainFrame = new MainFrame {
@@ -58,10 +58,22 @@ object Main {
     centerOnScreen()
   }
 
-  var boolSwitch = false
+  val funField: TextField = new TextField {
+    listenTo(this)
+    reactions += {
+      case e: EditDone =>
+        funField.text_=(funField.text)
+        usrForce = new UserForce(funField.text)
+    }
+  }
+  funField.text_=("1/(r*r*r)") // Gravity Force
+  var usrForce = new UserForce(funField.text) // CHANGE THIS TO TreeUserForce IF YOU WANT TO SEE ASSIGNMENT 10
 
+  var boolSwitch = false
   var buttonFrame: MainFrame = new MainFrame {
-    contents = new GridPanel(2, 2) {
+    contents = new GridPanel(3, 2) {
+      contents += new Label("Input Custom Force Equation")
+      contents += funField
       contents += new Label("Click me to Stop Repaint")
       contents += new Button {
         listenTo(mouse.clicks)
@@ -76,21 +88,20 @@ object Main {
         listenTo(mouse.clicks)
         reactions += {
           case e: MouseClicked =>
-            //sim.addRandParticle()
+            sim.addRandParticle(5.0)
             buttonFrame.repaint()
         }
       }
+
       preferredSize = new Dimension(400, 200)
     }
   }
 
   def main(args: Array[String]): Unit = {
-    //chooseFile
     mainFrame.open
     buttonFrame.open
-    println(sim.numParticles)
     while (true) {
-      sim.applyForce(gForce, plot.dt)
+      sim.applyForce(usrForce, plot.dt)
       sim.advance(plot.dt)
       if (boolSwitch == false) mainFrame.repaint()
     }

@@ -3,7 +3,7 @@ package particlesim
 /**
  * @author cstein1
  */
-class UserForce(force:String) extends TimeStepForce {
+class TreeUserForce(force:String) extends TimeStepForce {
     def calcAccelerations(parts: IndexedSeq[Particle]): IndexedSeq[Vect3D] = {
     (for (i <- (0 until parts.length).par) yield {
       var acc = new Vect3D(0, 0, 0)
@@ -11,8 +11,8 @@ class UserForce(force:String) extends TimeStepForce {
         if (i != j) {
           val dvect = parts(i).pos - parts(j).pos
           val dist = dvect.mag + 10
-          val mag = Parser.eval(force, Map("r" -> dist))
-          println(mag)                                 // Goes to NaN
+          val parse = new TreeParser(force)
+          val mag = parse(Map("r" -> dist))
          acc -= dvect * parts(j).mass * mag
         }
       }

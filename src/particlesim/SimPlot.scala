@@ -21,7 +21,7 @@ import scala.swing.event.FocusLost
 import java.awt.Dimension
 
 class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
-  var dt: Double = 0.1
+  var dt: Double = 0.01
   var xMin = -750
   var xMax = 750
   var yMin = -750
@@ -165,10 +165,6 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       preferredSize = new Dimension(yMin, yMax)
     }
   }
-
-  //def sim(mParti: mutable.Buffer[Particle]): Simulation = {
-  //val accel = (new GravityForce).calcAccelerations(mParti.toIndexedSeq)
-  //}
 
   val drawPanel = new Panel {
     override def paint(g: Graphics2D): Unit = {
