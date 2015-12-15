@@ -1,10 +1,7 @@
 package particlesim
 
-// Problems arise with NEGATIVES
-// Doesn't yet support cos, sin, or sqrt
-
 /**
- * @author Charles
+ * @author mLewis
  */
 
 class TreeParser(expr: String) {
