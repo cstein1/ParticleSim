@@ -12,7 +12,6 @@ class UserForce(force:String) extends TimeStepForce {
           val dvect = parts(i).pos - parts(j).pos
           val dist = dvect.mag + 10
           val mag = Parser.eval(force, Map("r" -> dist))
-          println(mag)                                 // Goes to NaN
          acc -= dvect * parts(j).mass * mag
         }
       }

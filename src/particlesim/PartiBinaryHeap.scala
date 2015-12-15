@@ -2,9 +2,6 @@ package particlesim
 
 import collection.mutable
 
-/**
- * @author dbomer
- */
 class PartiBinaryHeap(lt: (Double, Double) => Boolean) {
   private var default: (Particle,Particle,Double) = _
   private val heap = mutable.ArrayBuffer[(Particle,Particle,Double)](default)

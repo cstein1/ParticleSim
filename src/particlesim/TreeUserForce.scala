@@ -12,7 +12,7 @@ class TreeUserForce(force:String) extends TimeStepForce {
           val dvect = parts(i).pos - parts(j).pos
           val dist = dvect.mag + 10
           val parse = new TreeParser(force)
-          val mag = parse(Map("r" -> dist))
+          val mag = parse.eval(Map("r" -> dist))
          acc -= dvect * parts(j).mass * mag
         }
       }

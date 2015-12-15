@@ -47,6 +47,7 @@ object Main {
   }
 
   val initP = impParts(chooseFile)
+  
   val plot = new SimPlot(initP)
   val sim = new Simulation(initP, plot.dt)
 
@@ -63,11 +64,13 @@ object Main {
     reactions += {
       case e: EditDone =>
         funField.text_=(funField.text)
-        usrForce = new UserForce(funField.text)
+        usrForce = new TreeUserForce(funField.text)                 // Assignment 10
+        //usrForce = new UserForce(funField.text)                       // Assignment 9
     }
   }
   funField.text_=("1/(r*r*r)") // Gravity Force
-  var usrForce = new UserForce(funField.text) // CHANGE THIS TO TreeUserForce IF YOU WANT TO SEE ASSIGNMENT 10
+  var usrForce = new TreeUserForce(funField.text)                 // Assignment 10
+  //var usrForce = new UserForce(funField.text)                        // Assignment 9
 
   var boolSwitch = false
   var buttonFrame: MainFrame = new MainFrame {

@@ -13,7 +13,7 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
     collisions
     val t1 = System.nanoTime()
     var milli = (t1 - to) / 1000000
-    //println("Calculated in " + milli + " milliseconds")
+    println("Calculated in " + milli + " milliseconds")
   }
   def p(index: Int) = mParticles(index)
   var switch = -1
@@ -38,7 +38,8 @@ class Simulation(val mParticles: mutable.Buffer[Particle], dt: Double) {
     mParticles.foreach(_.step(dt))
   }
 
-  private val heap = new BinaryHeap(_ < _)
+  //private val heap = new PartiPriorityQueue(_ < _) // Assignment 8
+   private val heap = new BinaryHeap(_<_) // Assignment 13
   def collisions() {
     for (i <- 0 until mParticles.length) {
       for (j <- i+1 until mParticles.length) {

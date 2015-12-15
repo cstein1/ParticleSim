@@ -21,7 +21,7 @@ import scala.swing.event.FocusLost
 import java.awt.Dimension
 
 class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
-  var dt: Double = 0.01
+  var dt: Double = 0.001
   var xMin = -750
   var xMax = 750
   var yMin = -750
@@ -82,6 +82,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       listenTo(this)
       reactions += {
         case e: EditDone =>
+          text_=(yMaxField.text)
           yMax = text.toInt
       }
     }
@@ -95,6 +96,7 @@ class SimPlot(mParticles: mutable.Buffer[Particle]) extends BorderPanel {
       listenTo(this)
       reactions += {
         case e: EditDone =>
+          text_=(numField.text)
           dt = text.toDouble
       }
     }
